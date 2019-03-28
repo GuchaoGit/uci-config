@@ -2,8 +2,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <uci.h>
+#include "uci_helper.h"
 #define UCI_OK 0
-#define UCI_CONFIG_FILE  "network"
+#define UCI_CONFIG_FILE  "wireless"
 
 static struct uci_context *ctx= NULL;//定义uci上下文的静态变量
 const char *value;
@@ -75,6 +76,21 @@ int main(void)
 
 //	load_config();
 
+/*	char * pkg = "wireless";
+	char *sect="cfg023579";
+	char *opt="ssid";
+	char *value="hello";
+	int result = uci_set_option(pkg,sect,opt,value);
+	printf("result is %d\n",result);
+*/
 
+	char *ptr1 = "wireless.@wifi-iface[0].ssid";
+	char *value = "heiheihei";
+	int rst = uci_set_option_for_anonymous_section(ptr1,value);
+	printf("result is %d\n",rst);
+
+	char *ptr = "wireless.@wifi-iface[0].ssid";
+	char *result_ptr = uci_get_option(ptr);
+	printf("get option : %s = %s\n",ptr,result_ptr);
 	return 0;
 }
